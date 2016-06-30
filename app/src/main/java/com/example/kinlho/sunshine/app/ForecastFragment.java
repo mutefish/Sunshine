@@ -2,9 +2,11 @@ package com.example.kinlho.sunshine.app;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -59,8 +61,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id  = item.getItemId();
         if(id == R.id.action_refresh){
-            FetchWeatherTask getWeather = new FetchWeatherTask();
-            getWeather.execute("6094817");
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -73,28 +74,12 @@ public class ForecastFragment extends Fragment {
         // Inflate the layout for this fragment_detail
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-//        add code here
-        String[] fake_data = {
-                "Today-Sunny-88/63",
-                "Tomorrow-Cloudy-88/63",
-                "Wednesday-Sunny-88/63",
-                "Thursday-Rainy-88/63",
-                "Friday-Sunny-88/63",
-        };
-
-        String[] fake_data2 = {};
-
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(fake_data2));
-
         forecast_adapter = new ArrayAdapter<String>(
                                                     getActivity(),
                                                     R.layout.list_item_forecast,
                                                     R.id.list_item_forecast_textview,
-                                                    weekForecast
+                                                    new ArrayList<String>()
                                                     );
-
-        FetchWeatherTask getWeather = new FetchWeatherTask();
-        getWeather.execute("6094817");
 
 //        FrameLayout layout_container = (FrameLayout)rootView.findViewById(R.id.frame_container);
         ListView listView = (ListView)rootView.findViewById(R.id.listview_forecast);
@@ -111,6 +96,22 @@ public class ForecastFragment extends Fragment {
         });
         return rootView;
     }
+
+    private void updateWeather() {
+        FetchWeatherTask getWeather = new FetchWeatherTask();
+        String location = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString(getString(R.string.pref_location_key),
+                        getString(R.string.pref_location_default));
+        Log.v("updateWeather", location);
+        getWeather.execute(location);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         private String getReadableDateString(long time){
@@ -125,6 +126,17 @@ public class ForecastFragment extends Fragment {
          */
         private String formatHighLows(double high, double low) {
             // For presentation, assume the user doesn't care about tenths of a degree.
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType = sharedPref.getString(
+                    getString(R.string.pref_units_key),
+                    getString(R.string.pref_units_metric));
+
+            if(unitType.equals(getString(R.string.pref_units_imperial))) {
+                high = (high * 1.8) +32;
+                low = (low * 1.8) + 32;
+            } else if (!unitType.equals((getString(R.string.pref_units_metric)))){
+                Log.d("FormatHighLows", "Unit type not found");
+            }
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
 
@@ -224,7 +236,7 @@ public class ForecastFragment extends Fragment {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are available at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?id=6094817&mode=json&units=metric&cnt=7";
+                final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?&mode=json&units=metric&cnt=7";
 
                 final String APPID_PARAM = "APPID";
                 final String QUERY_PARAM = "id";
