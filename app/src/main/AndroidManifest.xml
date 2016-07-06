@@ -27,7 +27,7 @@
             android:parentActivityName=".MainActivity" >
         </activity>
         <provider
-            android:authorities=" com.example.kinlho.sunshine.app"
+            android:authorities="com.example.kinlho.sunshine.app"
             android:name=".data.WeatherProvider"/>
     </application>
 
