@@ -26,6 +26,9 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity" >
         </activity>
+        <provider
+            android:authorities=" com.example.kinlho.sunshine.app"
+            android:name=".data.WeatherProvider"/>
     </application>
 
 </manifest>
