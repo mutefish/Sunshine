@@ -2,14 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.kinlho.sunshine.app.ForecastFragment"
-    android:id="@+id/frame_container">
+    android:id="@+id/frame_container"
+    tools:context="com.example.kinlho.sunshine.app.ForecastFragment">
     <!--tools:showIn="@layout/activity_main"-->
+    <!--android:id="@+id/frame_container">-->
 
     <!-- TODO: Update blank fragment_detail layout -->
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listview_forecast">
+        android:id="@+id/listview_forecast"
+        android:layout_gravity="center_horizontal|bottom">
     </ListView>
 </FrameLayout>
