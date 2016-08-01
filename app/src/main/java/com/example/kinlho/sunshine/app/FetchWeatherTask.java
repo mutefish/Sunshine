@@ -18,15 +18,11 @@ package com.example.kinlho.sunshine.app;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.example.kinlho.sunshine.app.data.WeatherContract;
 import com.example.kinlho.sunshine.app.data.WeatherContract.WeatherEntry;
@@ -41,8 +37,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Vector;
 
 public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
@@ -294,26 +288,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             if ( cVVector.size() > 0 ) {
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                                 cVVector.toArray(cvArray);
-//                                mContext.getContentResolver().bulkInsert(WeatherEntry.CONTENT_URI, cvArray);
-//            }
-//
-//            // Sort order:  Ascending, by date.
-//            String sortOrder = WeatherEntry.COLUMN_DATE + " ASC";
-//            Uri weatherForLocationUri = WeatherEntry.buildWeatherLocationWithStartDate(
-//                    locationSetting, System.currentTimeMillis());
-//
-//            // Students: Uncomment the next lines to display what what you stored in the bulkInsert
-//
-//            Cursor cur = mContext.getContentResolver().query(weatherForLocationUri,
-//                    null, null, null, sortOrder);
-//
-//            cVVector = new Vector<ContentValues>(cur.getCount());
-//            if ( cur.moveToFirst() ) {
-//                do {
-//                    ContentValues cv = new ContentValues();
-//                    DatabaseUtils.cursorRowToContentValues(cur, cv);
-//                    cVVector.add(cv);
-//                } while (cur.moveToNext());
                 inserted = mContext.getContentResolver().bulkInsert(WeatherEntry.CONTENT_URI, cvArray);
             }
 
@@ -421,25 +395,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 }
             }
         }
-
-//        try {
-//            return getWeatherDataFromJson(forecastJsonStr, locationQuery);
-//        } catch (JSONException e) {
-//            Log.e(LOG_TAG, e.getMessage(), e);
-//            e.printStackTrace();
-//        }
         // This will only happen if there was an error getting or parsing the forecast.
         return null;
     }
 
-//    @Override
-//    protected void onPostExecute(String[] result) {
-//        if (result != null && mForecastAdapter != null) {
-//            mForecastAdapter.clear();
-//            for(String dayForecastStr : result) {
-//                mForecastAdapter.add(dayForecastStr);
-//            }
-//            // New data is back from the server.  Hooray!
-//        }
-//    }
 }

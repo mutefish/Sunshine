@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
         mLocation = Utility.getPreferredLocation(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//            .add(R.id.fragment, new ForecastFragment(), FORECASTFRAGMENT_TAG)
-//                    .commit();
-//        }
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+            .add(R.id.fragment, new ForecastFragment(), FORECASTFRAGMENT_TAG)
+                    .commit();
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

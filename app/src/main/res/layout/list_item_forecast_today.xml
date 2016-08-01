@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sunny"
-                android:id="@+id/list_item_forecastview"/>
+                android:id="@+id/list_item_forecast_textview"/>
     </LinearLayout>
 
 </LinearLayout>
