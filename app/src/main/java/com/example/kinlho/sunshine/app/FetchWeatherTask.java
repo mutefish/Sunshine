@@ -330,8 +330,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             // Possible parameters are avaiable at OWM's forecast API page, at
             // http://openweathermap.org/API#forecast
             final String FORECAST_BASE_URL =
-                    "http://api.openweathermap.org/data/2.5/forecast/daily?&mode=json&units=metric&cnt=14";
-            final String QUERY_PARAM = "id";
+                    "http://api.openweathermap.org/data/2.5/forecast/daily?";
+            final String QUERY_PARAM = "q";
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
             final String DAYS_PARAM = "cnt";
